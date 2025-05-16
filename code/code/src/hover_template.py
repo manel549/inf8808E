@@ -25,6 +25,15 @@ def get_hover_template(name, mode):
         Returns:
             The hover template with the elements descibed above
     '''
-    # TODO: Generate and return the over template
+    if mode == MODES['count']:
+        hover_sentence = "%{y} lines" 
+    elif mode == MODES['percent']:
+        hover_sentence = "%{y.2f}% of lines" 
+    else:
+        raise ValueError(f"Unsupported mode: {mode}")
 
-    return ''
+    hover_template = (
+        f"<span style='font-family: Grenze Gotisch; font-size: 24px; color: black;'>"
+        f"{name}</span><br>{hover_sentence}"
+    )
+    return hover_template
