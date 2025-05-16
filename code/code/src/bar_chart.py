@@ -24,7 +24,8 @@ def init_figure():
     # TODO : Update the template to include our new theme and set the title
 
     fig.update_layout(
-        template=pio.templates['simple_white'],
+        template=pio.templates["custom"],
+        title='Lines per Act',
         dragmode=False,
         barmode='relative'
     )
@@ -45,6 +46,28 @@ def draw(fig, data, mode):
     '''
     fig = go.Figure(fig)  # conversion back to Graph Object
     # TODO : Update the figure's data according to the selected mode
+    fig.data = []
+    y_column = MODE_TO_COLUMN[mode]
+
+    """
+    players_order = (
+        data.groupby('Player')['LineCount']
+        .sum()
+        .sort_values(ascending=True)
+        .index.tolist()
+    )
+    """
+    players_order = ['Benvolio', 'Juliet', 'Mercutio', 'Nurse', 'Other', 'Romeo']
+
+    for player in players_order:
+        player_data = data[data['Player'] == player]
+        fig.add_trace(go.Bar(
+            x=player_data['Act'],
+            y=player_data[y_column],
+            name=player,
+            hovertemplate=[get_hover_template(player, mode)] * len(player_data),
+        ))
+    
     return fig
 
 
@@ -59,3 +82,9 @@ def update_y_axis(fig, mode):
             The updated figure
     '''
     # TODO : Update the y axis title according to the current mode
+    if mode == MODES['count']:
+        fig.update_yaxes(title_text='Lines (Count)')
+    else:
+        fig.update_yaxes(title_text='Lines (%)')
+
+    return fig
