@@ -88,4 +88,5 @@ def clean_names(my_df):
     '''
     # TODO : Clean the player names
     my_df['Player'] = my_df['Player'].apply(lambda name: name.title())
+    my_df['Act'] = my_df['Act'].apply(lambda x: f'Act {x}')
     return my_df
