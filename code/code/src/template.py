@@ -46,6 +46,7 @@ def create_template():
 
     '''
     # TODO : Define a theme as defined above
+    #Ici on définit un thème qui hérite du thème simple_white et qui spécialise avec les couleurs définies dans thème plus haut.
     custom_template = go.layout.Template(
         layout=go.Layout(
             template=pio.templates["simple_white"],  # Base
@@ -61,7 +62,7 @@ def create_template():
                 font_color=THEME["font_color"]
             ),
             hovermode='closest',
-            colorway=THEME["bar_colors"]  # ✅ C’est cette ligne qui applique les bonnes couleurs
+            colorway=THEME["bar_colors"]  
         )
     )
     

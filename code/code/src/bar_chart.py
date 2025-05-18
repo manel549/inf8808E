@@ -22,7 +22,7 @@ def init_figure():
     fig = go.Figure()
 
     # TODO : Update the template to include our new theme and set the title
-
+    #ici on invoque le template custom qui hérite du template simple_white
     fig.update_layout(
         template=pio.templates["custom"],
         title='Lines per Act',
@@ -49,15 +49,8 @@ def draw(fig, data, mode):
     fig.data = []
     y_column = MODE_TO_COLUMN[mode]
 
-    """
-    players_order = (
-        data.groupby('Player')['LineCount']
-        .sum()
-        .sort_values(ascending=True)
-        .index.tolist()
-    )
-    """
-    players_order = ['Benvolio', 'Juliet', 'Mercutio', 'Nurse', 'Other', 'Romeo']
+    #on définit dynamiquement par ordre alphabétique 
+    players_order = sorted(data['Player'].unique()) 
 
     for player in players_order:
         player_data = data[data['Player'] == player]
@@ -82,6 +75,7 @@ def update_y_axis(fig, mode):
             The updated figure
     '''
     # TODO : Update the y axis title according to the current mode
+    # on met à jour l'axe y en fonction du mode sélectionné
     if mode == MODES['count']:
         fig.update_yaxes(title_text='Lines (Count)')
     else:
