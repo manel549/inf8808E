@@ -22,12 +22,13 @@ def init_figure():
     fig = go.Figure()
 
     # TODO : Update the template to include our new theme and set the title
-    #ici on invoque le template custom qui hérite du template simple_white
+
+    #Here we invoke the custom template, which inherits from the simple\_white template.
     fig.update_layout(
         template=pio.templates["custom"],
         title='Lines per Act',
-        dragmode=False,
-        barmode='relative'
+        dragmode=False,     # Disable drag interaction
+        barmode='relative'  # Bars are stacked relative to each other
     )
 
     return fig
@@ -46,14 +47,17 @@ def draw(fig, data, mode):
     '''
     fig = go.Figure(fig)  # conversion back to Graph Object
     # TODO : Update the figure's data according to the selected mode
-    fig.data = []
-    y_column = MODE_TO_COLUMN[mode]
 
-    #on définit dynamiquement par ordre alphabétique 
+    fig.data = []
+    y_column = MODE_TO_COLUMN[mode]      #Choose which column to plot on y-axis
+
+    # Sort players alphabetically for consistent trace ordering
     players_order = sorted(data['Player'].unique()) 
 
     for player in players_order:
         player_data = data[data['Player'] == player]
+
+        # Add a bar trace per player with customized hover templates
         fig.add_trace(go.Bar(
             x=player_data['Act'],
             y=player_data[y_column],
@@ -75,7 +79,8 @@ def update_y_axis(fig, mode):
             The updated figure
     '''
     # TODO : Update the y axis title according to the current mode
-    # on met à jour l'axe y en fonction du mode sélectionné
+
+   # Set y-axis label dynamically based on mode
     if mode == MODES['count']:
         fig.update_yaxes(title_text='Lines (Count)')
     else:

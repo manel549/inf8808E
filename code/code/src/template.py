@@ -46,24 +46,27 @@ def create_template():
 
     '''
     # TODO : Define a theme as defined above
-    #Ici on définit un thème qui hérite du thème simple_white et qui spécialise avec les couleurs définies dans thème plus haut.
+   
+# Define a new custom template that inherits from the built-in 'simple_white' template
+    # and overrides specific layout properties with the theme's colors and fonts.
     custom_template = go.layout.Template(
         layout=go.Layout(
-            template=pio.templates["simple_white"],  # Base
+            template=pio.templates["simple_white"],  
             font=dict(
-                family=THEME["font_family"],
-                color=THEME["font_color"]
+                family=THEME["font_family"],        
+                color=THEME["font_color"]           
             ),
-            plot_bgcolor=THEME["background_color"],
+            plot_bgcolor=THEME["background_color"], 
             paper_bgcolor=THEME["background_color"],
             hoverlabel=dict(
-                bgcolor=THEME["label_background_color"],
-                font_size=THEME["label_font_size"],
-                font_color=THEME["font_color"]
+                bgcolor=THEME["label_background_color"],  
+                font_size=THEME["label_font_size"],       
+                font_color=THEME["font_color"]             
             ),
-            hovermode='closest',
-            colorway=THEME["bar_colors"]  
+            hovermode='closest',  # Show hover info for the closest data point only
+            colorway=THEME["bar_colors"]  # Set default colors for bar charts
         )
     )
-    
+
+    # Register the custom template in plotly's template dictionary
     pio.templates["custom"] = custom_template
